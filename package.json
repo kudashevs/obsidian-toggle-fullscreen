@@ -1,0 +1,36 @@
+{
+  "name": "obsidian-toggle-fullscreen-plugin",
+  "version": "1.0.0",
+  "description": "This plugin shows a single document in the fullscreen focus mode",
+  "license": "MIT",
+  "type": "module",
+  "main": "main.js",
+  "homepage": "https://github.com/kudashevs/obsidian-toggle-fullscreen-plugin",
+  "bugs": "https://github.com/kudashevs/obsidian-toggle-fullscreen-plugin/issues",
+  "keywords": [
+    "obsidian",
+    "obsidian fullscreen",
+    "obsidian fullscreen mode",
+    "obsidian toggle fullscreen"
+  ],
+  "authors": [
+    {
+      "name": "Sergey Kudashev",
+      "email": "kudashevs@gmail.com"
+    }
+  ],
+  "dependencies": {},
+  "devDependencies": {
+    "esbuild": "^0.28.2",
+    "jsdom": "^31.0.1",
+    "obsidian": "1.1.1",
+    "tslib": "^2.9.1",
+    "typescript": "^4.7.1||^5.8.3",
+    "vitest": "^5.1.1"
+  },
+  "scripts": {
+    "dev": "node esbuild.config.mjs",
+    "build": "tsc -noEmit -skipLibCheck && node esbuild.config.mjs production",
+    "test": "vitest run"
+  }
+}

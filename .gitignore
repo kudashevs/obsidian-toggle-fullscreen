@@ -1,0 +1,11 @@
+.idea/
+.fleet/
+.vscode/
+/build/
+/coverage/
+/node_modules/
+.eslintcache
+main.js
+*.js.map
+*.log
+npm-debug.log*
