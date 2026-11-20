@@ -39,6 +39,13 @@ export default class FullScreenPlugin extends Plugin {
       el.querySelector<HTMLInputElement>(".prompt-input")?.focus();
     });
 
+    const cleanup = () => {
+      this.observer.disconnect();
+      this.observer = null;
+      el.removeEventListener('fullscreenchange', onFullscreenChange);
+      document.body.classList.remove('fullscreen');
+    };
+
     const onFullscreenChange = (event: Event) => {
       if (event.target !== el) return;
 
@@ -47,10 +54,7 @@ export default class FullScreenPlugin extends Plugin {
         return;
       }
 
-      observer.disconnect();
-      el.removeEventListener("fullscreenchange", onFullscreenChange);
-      document.body.classList.remove("fullscreen");
-      this.observer = null;
+      cleanup();
     };
 
     el.addEventListener("fullscreenchange", onFullscreenChange);
@@ -60,9 +64,7 @@ export default class FullScreenPlugin extends Plugin {
     try {
       await el.requestFullscreen();
     } catch (error) {
-      observer.disconnect();
-      el.removeEventListener("fullscreenchange", onFullscreenChange);
-      this.observer = null;
+      cleanup();
       console.error("Fullscreen focus mode: could not enter fullscreen", error);
     }
   }
