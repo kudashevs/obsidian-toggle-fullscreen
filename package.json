@@ -41,6 +41,7 @@
     "dev": "node esbuild.config.mjs",
     "build": "tsc -noEmit -skipLibCheck && node esbuild.config.mjs production",
     "test": "vitest run",
+    "test:unit": "vitest run test ./tests/unit",
     "test:e2e": "wdio run tests/acceptance/wdio.conf.mts",
     "lint": "eslint --config eslint.config.mts .",
     "lint:fix": "eslint --config eslint.config.mts . --fix",
