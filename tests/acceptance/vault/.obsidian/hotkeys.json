@@ -1,5 +1,5 @@
 {
-  "obsidian-toggle-fullscreen-plugin:toggle-fullscreen": [
+  "toggle-fullscreen:toggle": [
     {
       "modifiers": ["Alt"],
       "key": "F"
