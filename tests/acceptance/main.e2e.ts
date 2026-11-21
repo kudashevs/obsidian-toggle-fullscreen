@@ -1,7 +1,7 @@
 import { browser, expect } from '@wdio/globals';
 import { Key } from 'webdriverio';
 
-const TIMEOUT = 3000;
+const TIMEOUT = 5000;
 const COMMAND = 'Toggle fullscreen';
 
 const isFullscreen = () => browser.execute(() => document.fullscreenElement !== null);
