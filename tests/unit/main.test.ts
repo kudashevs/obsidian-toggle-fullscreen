@@ -2,7 +2,7 @@ import {describe, it, expect, beforeEach, afterEach, vi} from 'vitest';
 // explicit extension: "../main" would resolve to the built main.js bundle
 import FullScreenPlugin from '../../main.ts';
 
-describe('Obsidian toggle fullscreen test suite', () => {
+describe('Obsidian toggle fullscreen plugin unit suite', () => {
   let panelEl: HTMLElement;
   let plugin: FullScreenPlugin;
 
