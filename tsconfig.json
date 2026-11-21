@@ -1,14 +1,14 @@
 {
   "compilerOptions": {
-    "baseUrl": ".",
+    "target": "ES2018",
+    "skipLibCheck": true,
+    "module": "ESNext",
+    "moduleResolution": "node",
+    "allowJs": true,
+    "checkJs": true,
+    "strict": true,
     "inlineSourceMap": true,
     "inlineSources": true,
-    "module": "ESNext",
-    "target": "ES2018",
-    "allowJs": true,
-    "noImplicitAny": true,
-    "moduleResolution": "node",
-    "importHelpers": true,
     "lib": [
       "dom",
       "ES2018"
