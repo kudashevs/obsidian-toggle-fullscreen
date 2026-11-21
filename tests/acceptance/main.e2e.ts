@@ -2,6 +2,7 @@ import {browser, expect} from '@wdio/globals';
 import {Key} from 'webdriverio';
 
 const TIMEOUT = 3000;
+const COMMAND = 'Toggle fullscreen';
 
 const isFullscreen = () => browser.execute(() => document.fullscreenElement !== null);
 
@@ -18,20 +19,47 @@ describe('Obsidian toggle fullscreen plugin acceptance suite', () => {
     });
   });
 
-  it('enters fullscreen mode', async () => {
+  it('enters fullscreen mode via shortcut', async () => {
     await toggleFullscreen();
 
     await browser.waitUntil(isFullscreen, {timeout: TIMEOUT, timeoutMsg: 'did not enter fullscreen'});
     expect(await browser.execute(() => document.body.classList.contains('fullscreen'))).toBe(true);
   });
 
-  it('exits fullscreen mode', async () => {
+  it('exits fullscreen mode via shortcut', async () => {
     await toggleFullscreen();
     await browser.waitUntil(isFullscreen, {timeout: TIMEOUT, timeoutMsg: 'did not enter fullscreen'});
 
     await toggleFullscreen();
 
-    await browser.waitUntil(async () => !(await isFullscreen()), {timeout: TIMEOUT, timeoutMsg: 'did not exit fullscreen'});
+    await browser.waitUntil(async () => !(await isFullscreen()), {
+      timeout: TIMEOUT,
+      timeoutMsg: 'did not exit fullscreen'
+    });
+    expect(await browser.execute(() => document.body.classList.contains('fullscreen'))).toBe(false);
+  });
+
+  it('enters fullscreen mode via command palette', async () => {
+    await browser.keys(['Control', 'p']);
+    await browser.keys(COMMAND);
+    await browser.keys('Enter');
+
+    await browser.waitUntil(isFullscreen, {timeout: TIMEOUT, timeoutMsg: 'did not enter fullscreen'});
+    expect(await browser.execute(() => document.body.classList.contains('fullscreen'))).toBe(true);
+  });
+
+  it('exits fullscreen mode via command palette', async () => {
+    await toggleFullscreen();
+    await browser.waitUntil(isFullscreen, {timeout: TIMEOUT, timeoutMsg: 'did not enter fullscreen'});
+
+    await browser.keys(['Control', 'p']);
+    await browser.keys(COMMAND);
+    await browser.keys('Enter');
+
+    await browser.waitUntil(async () => !(await isFullscreen()), {
+      timeout: TIMEOUT,
+      timeoutMsg: 'did not exit fullscreen'
+    });
     expect(await browser.execute(() => document.body.classList.contains('fullscreen'))).toBe(false);
   });
 });
