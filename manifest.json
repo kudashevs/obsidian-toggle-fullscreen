@@ -3,7 +3,7 @@
   "name": "Fullscreen mode",
   "version": "1.0.0",
   "minAppVersion": "1.0.3",
-  "description": "Show a single document in the fullscreen focus mode",
+  "description": "Show a single document in the fullscreen focus mode.",
   "author": "kudashevs",
   "authorUrl": "https://github.com/kudashevs",
   "isDesktopOnly": false

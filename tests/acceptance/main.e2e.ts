@@ -1,5 +1,5 @@
-import {browser, expect} from '@wdio/globals';
-import {Key} from 'webdriverio';
+import { browser, expect } from '@wdio/globals';
+import { Key } from 'webdriverio';
 
 const TIMEOUT = 3000;
 const COMMAND = 'Toggle fullscreen';
@@ -14,7 +14,7 @@ describe('Obsidian toggle fullscreen plugin acceptance suite', () => {
     await browser.execute(async () => {
       if (document.fullscreenElement) await document.exitFullscreen();
     });
-    await browser.executeObsidian(async ({app}) => {
+    await browser.executeObsidian(async ({ app }) => {
       await app.workspace.openLinkText('note', '', false);
     });
   });
@@ -22,19 +22,19 @@ describe('Obsidian toggle fullscreen plugin acceptance suite', () => {
   it('enters fullscreen mode via shortcut', async () => {
     await toggleFullscreen();
 
-    await browser.waitUntil(isFullscreen, {timeout: TIMEOUT, timeoutMsg: 'did not enter fullscreen'});
+    await browser.waitUntil(isFullscreen, { timeout: TIMEOUT, timeoutMsg: 'did not enter fullscreen' });
     expect(await browser.execute(() => document.body.classList.contains('fullscreen'))).toBe(true);
   });
 
   it('exits fullscreen mode via shortcut', async () => {
     await toggleFullscreen();
-    await browser.waitUntil(isFullscreen, {timeout: TIMEOUT, timeoutMsg: 'did not enter fullscreen'});
+    await browser.waitUntil(isFullscreen, { timeout: TIMEOUT, timeoutMsg: 'did not enter fullscreen' });
 
     await toggleFullscreen();
 
     await browser.waitUntil(async () => !(await isFullscreen()), {
       timeout: TIMEOUT,
-      timeoutMsg: 'did not exit fullscreen'
+      timeoutMsg: 'did not exit fullscreen',
     });
     expect(await browser.execute(() => document.body.classList.contains('fullscreen'))).toBe(false);
   });
@@ -44,13 +44,13 @@ describe('Obsidian toggle fullscreen plugin acceptance suite', () => {
     await browser.keys(COMMAND);
     await browser.keys('Enter');
 
-    await browser.waitUntil(isFullscreen, {timeout: TIMEOUT, timeoutMsg: 'did not enter fullscreen'});
+    await browser.waitUntil(isFullscreen, { timeout: TIMEOUT, timeoutMsg: 'did not enter fullscreen' });
     expect(await browser.execute(() => document.body.classList.contains('fullscreen'))).toBe(true);
   });
 
   it('exits fullscreen mode via command palette', async () => {
     await toggleFullscreen();
-    await browser.waitUntil(isFullscreen, {timeout: TIMEOUT, timeoutMsg: 'did not enter fullscreen'});
+    await browser.waitUntil(isFullscreen, { timeout: TIMEOUT, timeoutMsg: 'did not enter fullscreen' });
 
     await browser.keys(['Control', 'p']);
     await browser.keys(COMMAND);
@@ -58,7 +58,7 @@ describe('Obsidian toggle fullscreen plugin acceptance suite', () => {
 
     await browser.waitUntil(async () => !(await isFullscreen()), {
       timeout: TIMEOUT,
-      timeoutMsg: 'did not exit fullscreen'
+      timeoutMsg: 'did not exit fullscreen',
     });
     expect(await browser.execute(() => document.body.classList.contains('fullscreen'))).toBe(false);
   });

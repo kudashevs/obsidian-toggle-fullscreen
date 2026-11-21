@@ -35,7 +35,7 @@ export class Workspace {
 export class WorkspaceLeaf {
   view: { containerEl: HTMLElement };
 
-  constructor(containerEl = document.createElement("div")) {
+  constructor(containerEl = document.createElement('div')) {
     this.view = { containerEl };
   }
 }

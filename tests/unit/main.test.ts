@@ -1,4 +1,4 @@
-import {describe, it, expect, beforeEach, afterEach, vi} from 'vitest';
+import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 // explicit extension: "../main" would resolve to the built main.js bundle
 import FullScreenPlugin from '../../main.ts';
 
@@ -7,6 +7,9 @@ describe('Obsidian toggle fullscreen plugin unit suite', () => {
   let plugin: FullScreenPlugin;
 
   beforeEach(() => {
+    // Obsidian provides activeDocument as a global; in tests it is the jsdom document
+    (globalThis as any).activeDocument = document;
+
     // jsdom has no Fullscreen API, so emulate it
     let fullscreenElement: Element | null = null;
     Object.defineProperty(document, 'fullscreenElement', {
@@ -29,7 +32,7 @@ describe('Obsidian toggle fullscreen plugin unit suite', () => {
     panelEl = document.createElement('div');
     document.body.appendChild(panelEl);
 
-    const app = {workspace: {getMostRecentLeaf: () => ({view: {containerEl: panelEl}})}};
+    const app = { workspace: { getMostRecentLeaf: () => ({ view: { containerEl: panelEl } }) } };
     plugin = new FullScreenPlugin(app as any, {} as any);
   });
 
@@ -91,7 +94,7 @@ describe('Obsidian toggle fullscreen plugin unit suite', () => {
 
   it('can do nothing when there is no leaf', async () => {
     const requestFullscreen = vi.spyOn(Element.prototype, 'requestFullscreen');
-    const app = {workspace: {getMostRecentLeaf: () => null}};
+    const app = { workspace: { getMostRecentLeaf: () => null } };
     plugin = new FullScreenPlugin(app as any, {} as any);
 
     await plugin.fullscreenMode();

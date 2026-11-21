@@ -1,26 +1,20 @@
-import esbuild from "esbuild";
-import process from "node:process";
-import { builtinModules } from "node:module";
+import esbuild from 'esbuild';
+import process from 'node:process';
+import { builtinModules } from 'node:module';
 
-const prod = process.argv[2] === "production";
+const prod = process.argv[2] === 'production';
 
 const context = await esbuild.context({
-  entryPoints: ["main.ts"],
+  entryPoints: ['main.ts'],
   bundle: true,
-  external: [
-    "obsidian",
-    "electron",
-    "@codemirror/*",
-    "@lezer/*",
-    ...builtinModules,
-  ],
-  format: "cjs",
-  target: "es2021",
-  logLevel: "info",
-  sourcemap: prod ? false : "inline",
+  external: ['obsidian', 'electron', '@codemirror/*', '@lezer/*', ...builtinModules],
+  format: 'cjs',
+  target: 'es2021',
+  logLevel: 'info',
+  sourcemap: prod ? false : 'inline',
   treeShaking: true,
   minify: prod,
-  outfile: "main.js",
+  outfile: 'main.js',
 });
 
 if (prod) {
