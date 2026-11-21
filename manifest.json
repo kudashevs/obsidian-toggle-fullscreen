@@ -2,7 +2,7 @@
   "id": "obsidian-toggle-fullscreen-plugin",
   "name": "Fullscreen mode plugin",
   "version": "1.0.0",
-  "minAppVersion": "1.1.1",
+  "minAppVersion": "1.0.3",
   "description": "This plugin shows a single document in the fullscreen focus mode",
   "author": "kudashevs",
   "authorUrl": "https://github.com/kudashevs",

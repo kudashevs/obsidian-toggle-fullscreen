@@ -13,7 +13,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        obsidian-version: ['1.1.9', 'latest']
+        obsidian-version: ['1.0.3', 'latest']
         ts-version: ['4.7.1', '5.8.3']
 
     steps:
@@ -36,7 +36,7 @@ jobs:
         uses: actions/cache@v5
         with:
           path: .obsidian-cache
-          key: obsidian-cache-${{ runner.os }}-${{ matrix.obsidian-version }}
+          key: obsidian-cache-${{ runner.os }}-obsidian-${{ matrix.obsidian-version }}
 
       - name: Install X11 window manager
         run: sudo apt-get update && sudo apt-get install -y openbox
