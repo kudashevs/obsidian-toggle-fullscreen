@@ -10,4 +10,4 @@ the same combination returns Obsidian back to the previous layout (same as `Esc`
 
 ## License
 
-The MIT License (MIT). Please see the [License file](LICENSE.md) for more information.
+The MIT License (MIT). Please see the [License file](LICENSE) for more information.
