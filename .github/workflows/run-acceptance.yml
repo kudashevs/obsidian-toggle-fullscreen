@@ -1,0 +1,47 @@
+name: Acceptance Tests
+
+on:
+  push:
+    tags:
+      - '*'
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        obsidian-version: ['1.1.9', 'latest']
+        ts-version: ['4.7.1', '5.8.3']
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build plugin
+        run: npm run build
+
+      - name: Cache Obsidian binaries
+        uses: actions/cache@v5
+        with:
+          path: .obsidian-cache
+          key: obsidian-cache-${{ runner.os }}-${{ matrix.obsidian-version }}
+
+      - name: Install X11 window manager
+        run: sudo apt-get update && sudo apt-get install -y openbox
+
+      - name: Run E2E Acceptance Tests
+        env:
+          OBSIDIAN_VERSIONS: ${{ matrix.obsidian-version }}
+        run: xvfb-run --auto-servernum bash -c "openbox & sleep 1 && npm run test:e2e"
