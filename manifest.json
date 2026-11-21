@@ -1,7 +1,7 @@
 {
   "id": "toggle-fullscreen",
   "name": "Fullscreen mode",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "minAppVersion": "1.0.3",
   "description": "Show a single document in the fullscreen focus mode.",
   "author": "kudashevs",
