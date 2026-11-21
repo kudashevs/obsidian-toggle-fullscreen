@@ -40,7 +40,7 @@ export default class FullScreenPlugin extends Plugin {
     });
 
     const cleanup = () => {
-      this.observer.disconnect();
+      observer.disconnect();
       this.observer = null;
       el.removeEventListener('fullscreenchange', onFullscreenChange);
       document.body.classList.remove('fullscreen');
