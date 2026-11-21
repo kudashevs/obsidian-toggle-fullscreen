@@ -1,9 +1,11 @@
 import {browser, expect} from '@wdio/globals';
+import {Key} from 'webdriverio';
 
-const COMMAND = 'obsidian-toggle-fullscreen-plugin:toggle-fullscreen';
 const TIMEOUT = 3000;
 
 const isFullscreen = () => browser.execute(() => document.fullscreenElement !== null);
+
+const toggleFullscreen = () => browser.keys([Key.Alt, 'f']);
 
 describe('Obsidian toggle fullscreen plugin acceptance suite', () => {
   beforeEach(async () => {
@@ -17,17 +19,17 @@ describe('Obsidian toggle fullscreen plugin acceptance suite', () => {
   });
 
   it('enters fullscreen mode', async () => {
-    await browser.executeObsidianCommand(COMMAND);
+    await toggleFullscreen();
 
     await browser.waitUntil(isFullscreen, {timeout: TIMEOUT, timeoutMsg: 'did not enter fullscreen'});
     expect(await browser.execute(() => document.body.classList.contains('fullscreen'))).toBe(true);
   });
 
   it('exits fullscreen mode', async () => {
-    await browser.executeObsidianCommand(COMMAND);
+    await toggleFullscreen();
     await browser.waitUntil(isFullscreen, {timeout: TIMEOUT, timeoutMsg: 'did not enter fullscreen'});
 
-    await browser.executeObsidianCommand(COMMAND);
+    await toggleFullscreen();
 
     await browser.waitUntil(async () => !(await isFullscreen()), {timeout: TIMEOUT, timeoutMsg: 'did not exit fullscreen'});
     expect(await browser.execute(() => document.body.classList.contains('fullscreen'))).toBe(false);
