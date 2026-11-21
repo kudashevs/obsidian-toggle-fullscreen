@@ -1,0 +1,36 @@
+name: Unit Tests
+
+on:
+  push:
+    tags:
+      - '*'
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        ts-version: ['4.7.2', '5.8.3']
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: 'npm'
+          cache-dependency-path: '**/package-lock.json'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Override TypeScript (v${{ matrix.ts-version }})
+        run: npm install typescript@^${{ matrix.ts-version }} --no-save
+
+      - name: Run tests
+        run: npm test
