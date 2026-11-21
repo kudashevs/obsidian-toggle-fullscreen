@@ -3,7 +3,7 @@ import { Plugin } from 'obsidian';
 export default class FullScreenPlugin extends Plugin {
   observer: MutationObserver | null = null;
 
-  async onload() {
+  onload() {
     this.addCommand({
       id: 'toggle',
       name: 'Toggle fullscreen',
