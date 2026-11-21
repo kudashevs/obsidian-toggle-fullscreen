@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "ES2018",
+    "target": "ES2021",
     "skipLibCheck": true,
     "module": "ESNext",
     "moduleResolution": "node",
@@ -11,7 +11,7 @@
     "inlineSources": true,
     "lib": [
       "dom",
-      "ES2018"
+      "ES2021"
     ]
   },
   "include": [ "*.ts" ],
