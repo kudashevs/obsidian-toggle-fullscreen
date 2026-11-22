@@ -1,5 +1,16 @@
 import { Plugin } from 'obsidian';
 
+interface Keyboard {
+  lock(keyCodes?: string[]): Promise<void>;
+  unlock(): void;
+}
+
+declare global {
+  interface Navigator {
+    keyboard?: Keyboard;
+  }
+}
+
 export default class FullScreenPlugin extends Plugin {
   observer: MutationObserver | null = null;
 
@@ -30,6 +41,7 @@ export default class FullScreenPlugin extends Plugin {
     const el = leaf.view.containerEl;
     // the leaf may live in a popout window, so use its own document
     const doc = el.ownerDocument;
+    const keyboard = doc.defaultView?.navigator.keyboard;
     const movedNodes = new Set<Node>();
 
     // move nodes appended to body (modals, menus, prompts) into the fullscreen element
@@ -45,14 +57,15 @@ export default class FullScreenPlugin extends Plugin {
     });
 
     const cleanup = () => {
-      observer.disconnect();
-      this.observer = null;
       movedNodes.forEach((node) => {
         if (node.parentNode === el) doc.body.appendChild(node);
       });
       movedNodes.clear();
-      el.removeEventListener('fullscreenchange', onFullscreenChange);
       doc.body.classList.remove('fullscreen');
+      el.removeEventListener('fullscreenchange', onFullscreenChange);
+      observer.disconnect();
+      this.observer = null;
+      keyboard?.unlock();
     };
 
     const onFullscreenChange = (event: Event) => {
@@ -60,6 +73,9 @@ export default class FullScreenPlugin extends Plugin {
 
       if (doc.fullscreenElement === el) {
         doc.body.classList.add('fullscreen');
+        keyboard?.lock(['Escape']).catch((error) => {
+          console.warn('Fullscreen focus mode: Escape key lock failed', error);
+        });
         return;
       }
 

@@ -6,7 +6,9 @@ This repo contains an Obsidian plugin the shows a single document in the fullscr
 ## Usage
 
 The fullscreen mode can be activated from the command palette with `Toggle fullscreen` or by setting a keyboard shortcut.
-Pressing the same shortcut again exits fullscreen and restores your previous layout (same as `Esc` keypress).
+Pressing the same shortcut again exits fullscreen and restores your previous layout (same as `Esc` keypress). A quick
+`Esc` press reaches the editor (e.g. Vim mode), while holding it for about 1,5 sec exits fullscreen. Note: This `Esc`
+behavior does not work in popup windows.
 
 ## License
 
