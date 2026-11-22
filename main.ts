@@ -17,7 +17,7 @@ export default class FullScreenPlugin extends Plugin {
   onload() {
     this.addCommand({
       id: 'toggle',
-      name: 'Toggle fullscreen',
+      name: 'toggle',
       callback: () => this.fullscreenMode(),
     });
   }
