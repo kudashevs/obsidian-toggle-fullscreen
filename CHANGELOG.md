@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.2.0 - 2026-11-22](https://github.com/kudashevs/obsidian-toggle-fullscreen/compare/1.1.0...1.2.0)
+
+- Change plugin name
+
 ## [1.1.0 - 2026-11-22](https://github.com/kudashevs/obsidian-toggle-fullscreen/compare/1.0.1...1.1.0)
 
 - Add Esc key quick press handling
