@@ -5,8 +5,8 @@ This repo contains an Obsidian plugin the shows a single document in the fullscr
 
 ## Usage
 
-The fullscreen mode can be used from the command palette or by setting a keyboard shortcut. When a shortcut is used
-the same combination returns Obsidian back to the previous layout (same as `Esc` keypress).
+The fullscreen mode can be activated from the command palette with `Toggle fullscreen` or by setting a keyboard shortcut.
+Pressing the same shortcut again exits fullscreen and restores your previous layout (same as `Esc` keypress).
 
 ## License
 
