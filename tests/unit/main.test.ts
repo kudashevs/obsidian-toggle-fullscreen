@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 // explicit extension: "../main" would resolve to the built main.js bundle
 import FullScreenPlugin from '../../main.ts';
 
@@ -33,7 +33,10 @@ describe('Obsidian toggle fullscreen plugin unit suite', () => {
     document.body.appendChild(panelEl);
 
     const app = {
-      workspace: { getActiveViewOfType: () => null, getMostRecentLeaf: () => ({ view: { containerEl: panelEl } }) },
+      workspace: {
+        getActiveViewOfType: () => null,
+        getMostRecentLeaf: () => ({view: {containerEl: panelEl}})
+      }
     };
     plugin = new FullScreenPlugin(app as any, {} as any);
   });
@@ -121,7 +124,7 @@ describe('Obsidian toggle fullscreen plugin unit suite', () => {
 
   it('can do nothing when there is no leaf', async () => {
     const requestFullscreen = vi.spyOn(Element.prototype, 'requestFullscreen');
-    const app = { workspace: { getMostRecentLeaf: () => null } };
+    const app = {workspace: {getActiveViewOfType: () => null, getMostRecentLeaf: () => null}};
     plugin = new FullScreenPlugin(app as any, {} as any);
 
     await plugin.fullscreenMode();
