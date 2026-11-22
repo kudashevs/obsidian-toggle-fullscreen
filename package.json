@@ -1,6 +1,6 @@
 {
   "name": "obsidian-toggle-fullscreen-plugin",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "This plugin shows a single document in the fullscreen focus mode",
   "license": "MIT",
   "type": "module",
