@@ -32,7 +32,9 @@ describe('Obsidian toggle fullscreen plugin unit suite', () => {
     panelEl = document.createElement('div');
     document.body.appendChild(panelEl);
 
-    const app = { workspace: { getMostRecentLeaf: () => ({ view: { containerEl: panelEl } }) } };
+    const app = {
+      workspace: { getActiveViewOfType: () => null, getMostRecentLeaf: () => ({ view: { containerEl: panelEl } }) },
+    };
     plugin = new FullScreenPlugin(app as any, {} as any);
   });
 
@@ -76,6 +78,31 @@ describe('Obsidian toggle fullscreen plugin unit suite', () => {
     await new Promise((resolve) => setTimeout(resolve, 0));
 
     expect(modal.parentNode).toBe(document.body);
+  });
+
+  it('can return moved nodes to the body after exiting fullscreen', async () => {
+    await plugin.fullscreenMode();
+
+    const notices = document.createElement('div');
+    document.body.appendChild(notices);
+    await new Promise((resolve) => setTimeout(resolve, 0));
+
+    await plugin.fullscreenMode();
+
+    expect(notices.parentNode).toBe(document.body);
+  });
+
+  it('cannot return moved nodes that were removed meanwhile', async () => {
+    await plugin.fullscreenMode();
+
+    const modal = document.createElement('div');
+    document.body.appendChild(modal);
+    await new Promise((resolve) => setTimeout(resolve, 0));
+    modal.remove();
+
+    await plugin.fullscreenMode();
+
+    expect(modal.parentNode).toBeNull();
   });
 
   it('can remove the fullscreenchange listener on every exit', async () => {

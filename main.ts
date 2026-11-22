@@ -30,12 +30,15 @@ export default class FullScreenPlugin extends Plugin {
     const el = leaf.view.containerEl;
     // the leaf may live in a popout window, so use its own document
     const doc = el.ownerDocument;
+    const movedNodes = new Set<Node>();
 
     // move nodes appended to body (modals, menus, prompts) into the fullscreen element
     const observer = new MutationObserver((mutationRecords) => {
       mutationRecords.forEach((mutationRecord) => {
         mutationRecord.addedNodes.forEach((node) => {
-          if (node.parentNode === doc.body) el.appendChild(node);
+          if (node.parentNode !== doc.body) return;
+          el.appendChild(node);
+          movedNodes.add(node);
         });
       });
       el.querySelector<HTMLInputElement>('.prompt-input')?.focus();
@@ -44,6 +47,10 @@ export default class FullScreenPlugin extends Plugin {
     const cleanup = () => {
       observer.disconnect();
       this.observer = null;
+      movedNodes.forEach((node) => {
+        if (node.parentNode === el) doc.body.appendChild(node);
+      });
+      movedNodes.clear();
       el.removeEventListener('fullscreenchange', onFullscreenChange);
       doc.body.classList.remove('fullscreen');
     };
