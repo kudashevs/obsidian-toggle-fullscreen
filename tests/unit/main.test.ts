@@ -1,6 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-// explicit extension: "../main" would resolve to the built main.js bundle
-import FullScreenPlugin from '../../main.ts';
+import FullScreenPlugin from '../../src/main.ts';
 
 describe('Obsidian toggle fullscreen plugin unit suite', () => {
   let panelEl: HTMLElement;
