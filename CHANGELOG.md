@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.3.0 - 2026-11-25](https://github.com/kudashevs/obsidian-toggle-fullscreen/compare/1.2.0...1.3.0)
+
+- Improve cleanup logic
+- Change command palette name
+- Update README file
+- Some improvements
+
 ## [1.2.0 - 2026-11-22](https://github.com/kudashevs/obsidian-toggle-fullscreen/compare/1.1.0...1.2.0)
 
 - Change plugin name
