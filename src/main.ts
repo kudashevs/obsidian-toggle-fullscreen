@@ -5,14 +5,8 @@ interface Keyboard {
   unlock(): void;
 }
 
-declare global {
-  interface Navigator {
-    keyboard?: Keyboard;
-  }
-}
-
 export default class FullScreenPlugin extends Plugin {
-  observer: MutationObserver | null = null;
+  private activeCleanup: (() => void) | null = null;
 
   onload() {
     this.addCommand({
@@ -23,15 +17,19 @@ export default class FullScreenPlugin extends Plugin {
   }
 
   onunload() {
-    this.observer?.disconnect();
-    this.observer = null;
-    activeDocument.body.classList.remove('fullscreen');
+    this.activeCleanup?.();
+    this.activeCleanup = null;
   }
 
   async fullscreenMode(): Promise<void> {
-    // exit on same shortcut hit
+    // exit on the same shortcut hit
     if (activeDocument.fullscreenElement) {
-      await activeDocument.exitFullscreen();
+      if (this.activeCleanup) {
+        this.activeCleanup();
+        this.activeCleanup = null;
+      } else {
+        await activeDocument.exitFullscreen();
+      }
       return;
     }
 
@@ -41,8 +39,14 @@ export default class FullScreenPlugin extends Plugin {
     const el = leaf.view.containerEl;
     // the leaf may live in a popout window, so use its own document
     const doc = el.ownerDocument;
-    const keyboard = doc.defaultView?.navigator.keyboard;
+    const nav = doc.defaultView?.navigator;
+    const keyboard = nav && 'keyboard' in nav ? (nav.keyboard as Keyboard | undefined) : undefined;
     const movedNodes = new Set<Node>();
+
+    // a short Escape press now reaches the editor; holding it exits fullscreen
+    const locked = keyboard?.lock(['Escape']).catch((error) => {
+      console.warn('Fullscreen focus mode: Esc key lock failed', error);
+    });
 
     // move nodes appended to body (modals, menus, prompts) into the fullscreen element
     const observer = new MutationObserver((mutationRecords) => {
@@ -57,15 +61,15 @@ export default class FullScreenPlugin extends Plugin {
     });
 
     const cleanup = () => {
+      doc.body.classList.remove('fullscreen');
+      observer.disconnect();
       movedNodes.forEach((node) => {
         if (node.parentNode === el) doc.body.appendChild(node);
       });
       movedNodes.clear();
-      doc.body.classList.remove('fullscreen');
       el.removeEventListener('fullscreenchange', onFullscreenChange);
-      observer.disconnect();
-      this.observer = null;
-      keyboard?.unlock();
+      if (doc.fullscreenElement === el) void doc.exitFullscreen();
+      void locked?.then(() => keyboard?.unlock());
     };
 
     const onFullscreenChange = (event: Event) => {
@@ -73,18 +77,15 @@ export default class FullScreenPlugin extends Plugin {
 
       if (doc.fullscreenElement === el) {
         doc.body.classList.add('fullscreen');
-        keyboard?.lock(['Escape']).catch((error) => {
-          console.warn('Fullscreen focus mode: Escape key lock failed', error);
-        });
         return;
       }
 
       cleanup();
     };
 
+    this.activeCleanup = cleanup;
     el.addEventListener('fullscreenchange', onFullscreenChange);
     observer.observe(doc.body, { childList: true });
-    this.observer = observer;
 
     try {
       await el.requestFullscreen();
