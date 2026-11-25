@@ -1,6 +1,6 @@
 import { Plugin } from 'obsidian';
 
-interface Keyboard {
+interface KeyboardLock {
   lock(keyCodes?: string[]): Promise<void>;
   unlock(): void;
 }
@@ -40,7 +40,7 @@ export default class FullScreenPlugin extends Plugin {
     // the leaf may live in a popout window, so use its own document
     const doc = el.ownerDocument;
     const nav = doc.defaultView?.navigator;
-    const keyboard = nav && 'keyboard' in nav ? (nav.keyboard as Keyboard | undefined) : undefined;
+    const keyboard = nav && 'keyboard' in nav ? (nav.keyboard as KeyboardLock | undefined) : undefined;
     const movedNodes = new Set<Node>();
 
     // a short Escape press now reaches the editor; holding it exits fullscreen
