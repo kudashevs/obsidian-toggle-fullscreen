@@ -1,7 +1,7 @@
 Obsidian toggle fullscreen plugin
 ==========================
 
-This repo contains an Obsidian plugin the shows a single document in the fullscreen focus mode.
+This repo contains an Obsidian plugin that shows a single document in the fullscreen focus mode.
 
 ## Usage
 
