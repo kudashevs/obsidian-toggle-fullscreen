@@ -64,8 +64,8 @@ export default class FullScreenPlugin extends Plugin {
       });
       movedNodes.clear();
       el.removeEventListener('fullscreenchange', onFullscreenChange);
-      if (doc.fullscreenElement === el) void doc.exitFullscreen();
       void locked?.then(() => keyboard?.unlock());
+      if (doc.fullscreenElement === el) void doc.exitFullscreen().catch(() => {});
     };
 
     const onFullscreenChange = (event: Event) => {
