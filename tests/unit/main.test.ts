@@ -1,6 +1,9 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import FullScreenPlugin from '../../src/main.ts';
 
+// let MutationObserver callbacks and promise chains run
+const flush = () => new Promise((resolve) => setTimeout(resolve, 0));
+
 describe('Obsidian toggle fullscreen plugin unit suite', () => {
   let panelEl: HTMLElement;
   let plugin: FullScreenPlugin;
@@ -66,7 +69,7 @@ describe('Obsidian toggle fullscreen plugin unit suite', () => {
 
     const modal = document.createElement('div');
     document.body.appendChild(modal);
-    await new Promise((resolve) => setTimeout(resolve, 0));
+    await flush();
 
     expect(modal.parentNode).toBe(panelEl);
   });
@@ -77,7 +80,7 @@ describe('Obsidian toggle fullscreen plugin unit suite', () => {
 
     const modal = document.createElement('div');
     document.body.appendChild(modal);
-    await new Promise((resolve) => setTimeout(resolve, 0));
+    await flush();
 
     expect(modal.parentNode).toBe(document.body);
   });
@@ -87,7 +90,7 @@ describe('Obsidian toggle fullscreen plugin unit suite', () => {
 
     const notices = document.createElement('div');
     document.body.appendChild(notices);
-    await new Promise((resolve) => setTimeout(resolve, 0));
+    await flush();
 
     await plugin.fullscreenMode();
 
@@ -99,7 +102,7 @@ describe('Obsidian toggle fullscreen plugin unit suite', () => {
 
     const modal = document.createElement('div');
     document.body.appendChild(modal);
-    await new Promise((resolve) => setTimeout(resolve, 0));
+    await flush();
     modal.remove();
 
     await plugin.fullscreenMode();
