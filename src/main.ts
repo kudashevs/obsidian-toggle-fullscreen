@@ -18,18 +18,13 @@ export default class FullScreenPlugin extends Plugin {
 
   onunload() {
     this.activeCleanup?.();
-    this.activeCleanup = null;
   }
 
   async fullscreenMode(): Promise<void> {
     // exit on the same shortcut hit
     if (activeDocument.fullscreenElement) {
-      if (this.activeCleanup) {
-        this.activeCleanup();
-        this.activeCleanup = null;
-      } else {
-        await activeDocument.exitFullscreen();
-      }
+      if (this.activeCleanup) this.activeCleanup();
+      else await activeDocument.exitFullscreen();
       return;
     }
 
@@ -61,6 +56,7 @@ export default class FullScreenPlugin extends Plugin {
     });
 
     const cleanup = () => {
+      if (this.activeCleanup === cleanup) this.activeCleanup = null;
       doc.body.classList.remove('fullscreen');
       observer.disconnect();
       movedNodes.forEach((node) => {
